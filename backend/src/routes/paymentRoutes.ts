@@ -1,16 +1,19 @@
-import { Router, Request, Response } from 'express';
-import { initiatePayment, getPaymentStatus, getPaymentHistory } from '../controllers/paymentController';
+import { Router } from 'express';
+import { initiatePayment, confirmPayment, getPaymentStatus, getPaymentHistory } from '../controllers/paymentController';
 import { authenticate } from '../middleware/auth';
 
 const router = Router();
 
-// POST /api/payments/initiate - Initiate a new payment
-router.post('/initiate', authenticate, initiatePayment);
+// POST /api/payments/initiate - Create new payment
+router.post('/initiate', initiatePayment);
+
+// POST /api/payments/confirm - Confirm Stellar transaction
+router.post('/confirm', authenticate, confirmPayment);
 
 // GET /api/payments/:id - Get payment status
-router.get('/:id', authenticate, getPaymentStatus);
+router.get('/:id', getPaymentStatus);
 
-// GET /api/payments/history - Get payment history
-router.get('/history', authenticate, getPaymentHistory);
+// GET /api/payments/history - Get payment history for user
+router.get('/history', getPaymentHistory);
 
 export default router;

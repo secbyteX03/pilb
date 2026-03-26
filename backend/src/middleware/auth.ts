@@ -1,38 +1,41 @@
 import { Request, Response, NextFunction } from 'express';
+import { getAuthService } from '../services/auth/sep10Service';
 
 export interface AuthRequest extends Request {
   user?: {
     publicKey: string;
-    address: string;
   };
 }
 
-export const authenticate = (
+export const authenticate = async (
   req: AuthRequest,
   res: Response,
   next: NextFunction
 ) => {
-  // In production, this would validate the JWT token from SEP-10
-  // For now, we'll check for a simple auth header
-  const authHeader = req.headers.authorization;
-  
-  if (!authHeader) {
-    return res.status(401).json({ error: 'No authorization header' });
-  }
-  
-  const token = authHeader.replace('Bearer ', '');
-  
-  // Validate token and set user
-  // This is a placeholder - implement actual SEP-10 token validation
   try {
-    // In production: verify JWT token
-    const payload = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
+    const authHeader = req.headers.authorization;
+    
+    if (!authHeader) {
+      return res.status(401).json({ error: 'No authorization header' });
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+    
+    // Verify token
+    const authService = getAuthService();
+    const payload = authService.verifyToken(token);
+
+    if (!payload) {
+      return res.status(401).json({ error: 'Invalid or expired token' });
+    }
+
+    // Attach user to request
     req.user = {
       publicKey: payload.publicKey,
-      address: payload.publicKey,
     };
+
     next();
   } catch (error) {
-    return res.status(401).json({ error: 'Invalid token' });
+    return res.status(401).json({ error: 'Authentication failed' });
   }
 };
