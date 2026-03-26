@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getChallenge, signChallenge } from '../controllers/authController';
+import { getChallenge, signChallenge, verifyToken } from '../controllers/authController';
 
 const router = Router();
 
@@ -8,5 +8,8 @@ router.get('/challenge', getChallenge);
 
 // POST /api/auth/authenticate - Sign and verify SEP-10 challenge
 router.post('/authenticate', signChallenge);
+
+// GET /api/auth/verify - Verify token
+router.get('/verify', verifyToken);
 
 export default router;
