@@ -1,10 +1,9 @@
 import { Request, Response } from 'express';
-import { v4 as uuidv4 } from 'uuid';
 import { CodeGenerator } from '../services/encryption/codeGenerator';
-import { PaymentModel } from '../../models/Payment';
-import { Validators } from '../../utils/validators';
-import { logger } from '../../utils/logger';
-import { env } from '../../config/environment';
+import { PaymentModel, PaymentRecord } from '../models/Payment';
+import { Validators } from '../utils/validators';
+import { logger } from '../utils/logger';
+import { env } from '../config/environment';
 
 /**
  * XLM to KES conversion rate (approximate)
@@ -154,7 +153,7 @@ export const getPaymentHistory = async (req: Request, res: Response) => {
     const payments = await PaymentModel.getHistory(publicKey, Number(limit), Number(offset));
 
     // Map to response (hide sensitive data)
-    const response = payments.map((p) => ({
+    const response = payments.map((p: PaymentRecord) => ({
       id: p.id,
       amount_KES: p.amount_KES,
       recipient_phone: p.recipient_phone.slice(-4), // Only last 4 digits

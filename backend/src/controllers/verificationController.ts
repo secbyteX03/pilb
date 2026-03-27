@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { PaymentModel } from '../../models/Payment';
+import { PaymentModel } from '../models/Payment';
 import { CodeGenerator } from '../services/encryption/codeGenerator';
-import { logger } from '../../utils/logger';
+import { logger } from '../utils/logger';
 
 /**
  * Verify a payment by code

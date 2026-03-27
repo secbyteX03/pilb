@@ -1,4 +1,4 @@
-import { getDatabase } from '../../config/database';
+import { getDatabase } from '../config/database';
 
 export interface PaymentRecord {
   id: string;

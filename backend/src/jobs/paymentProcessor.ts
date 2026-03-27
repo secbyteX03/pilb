@@ -1,7 +1,7 @@
-import { getWatcherService, IncomingPayment } from '../stellar/watcherService';
-import { getB2CService } from '../mpesa/b2cService';
-import { PaymentModel } from '../../models/Payment';
-import { logger } from '../../utils/logger';
+import { getWatcherService, IncomingPayment } from '../services/stellar/watcherService';
+import { getB2CService } from '../services/mpesa/b2cService';
+import { PaymentModel } from '../models/Payment';
+import { logger } from '../utils/logger';
 
 /**
  * Payment Processor - Coordinates the full payment flow

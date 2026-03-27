@@ -1,5 +1,4 @@
 import crypto from 'crypto';
-import { env } from '../../config/environment';
 
 /**
  * Code Generator - Generates secure verification codes and hashes

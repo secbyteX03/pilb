@@ -100,7 +100,7 @@ export class AuthService {
 
       // Verify the transaction was signed by the client
       const clientKeypair = StellarSDK.Keypair.fromPublicKey(publicKey);
-      const hasValidSignature = transaction.signatures.some((sig) => {
+      const hasValidSignature = transaction.signatures.some((sig: any) => {
         try {
           return transaction.verify(clientKeypair.publicKey(), sig);
         } catch {
