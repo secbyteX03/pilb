@@ -210,3 +210,10 @@ Check API health status.
   "service": "PILB Backend"
 }
 ```
+
+---
+
+**Related Documentation:**
+
+- [Architecture Overview](./ARCHITECTURE.md) - System design
+- [Deployment Guide](./DEPLOYMENT.md) - Setup instructions

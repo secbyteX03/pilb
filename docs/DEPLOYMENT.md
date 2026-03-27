@@ -86,3 +86,10 @@ git push heroku main
 
 - Backend: http://localhost:3000/api/health
 - Frontend: http://localhost:3001
+
+---
+
+**Related Documentation:**
+
+- [Architecture Overview](./ARCHITECTURE.md) - System design
+- [API Reference](./API.md) - Endpoint documentation

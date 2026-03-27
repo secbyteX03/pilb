@@ -118,3 +118,11 @@ PILB enables anonymous M-Pesa payments through Stellar blockchain. The system ma
 - Docker containers
 - Cloud hosting (Heroku, AWS)
 - PostgreSQL managed database
+
+---
+
+**Next Steps:**
+
+- [API Reference](./API.md) - Explore the API endpoints
+- [Deployment Guide](./DEPLOYMENT.md) - Set up your environment
+- [Contributing](./CONTRIBUTING.md) - Join the development
