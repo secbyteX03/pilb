@@ -45,6 +45,8 @@ In Kenya, financial privacy is a significant concern. When sending or receiving 
 
 PILB solves this by using the Stellar blockchain as an intermediary, ensuring that the sender's identity remains completely anonymous while still enabling seamless M-Pesa transfers. Recipients can also receive money without exposing their payment details to the sender.
 
+> **Note:** M-Pesa has recently introduced enhanced privacy features - when receiving money, you now only see the sender's partial number and full name. The sender must approve to display their full number. PILB adds an additional layer of anonymity through the Stellar blockchain, making it even more private than regular M-Pesa transactions.
+
 ## How It Works
 
 PILB uses a clever two-step verification system to maintain anonymity:
