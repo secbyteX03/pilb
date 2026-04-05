@@ -36,6 +36,17 @@ export const env = {
 
   // Frontend
   FRONTEND_URL: process.env.FRONTEND_URL || 'http://localhost:3001',
+
+  // Stripe
+  STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY || '',
+  STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET || '',
+
+  // Crypto
+  BITCOIN_API_KEY: process.env.BITCOIN_API_KEY || '',
+  ETHERSCAN_API_KEY: process.env.ETHERSCAN_API_KEY || '',
+
+  // Encryption
+  ENCRYPTION_KEY: process.env.ENCRYPTION_KEY || 'default-encryption-key-change-in-production',
 };
 
 // Validate critical env vars in production

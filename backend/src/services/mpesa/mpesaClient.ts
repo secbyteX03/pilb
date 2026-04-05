@@ -42,7 +42,7 @@ export class MpesaClient {
       this.tokenExpiresAt = Date.now() + (response.data.expires_in * 1000 * 0.9);
 
       logger.info('✅ Access token obtained');
-      return this.accessToken;
+      return this.accessToken as string;
     } catch (error) {
       logger.error('❌ Failed to get M-Pesa access token:', error);
       throw error;
@@ -81,10 +81,6 @@ export class MpesaClient {
   }> {
     try {
       const token = await this.getAccessToken();
-      const timestamp = new Date()
-        .toISOString()
-        .replace(/[^0-9]/g, '')
-        .slice(0, -3);
 
       logger.info(`📱 Initiating M-Pesa B2C payment`);
       logger.debug(`  Phone: ${phoneNumber}`);

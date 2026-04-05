@@ -3,8 +3,8 @@ import { logger } from '../../utils/logger';
 import { env } from '../../config/environment';
 
 // Type aliases for the Stellar SDK
-export type TransactionResponse = Horizon.TransactionResponse;
-export type PaymentOperationRecord = Horizon.ServerApi.PaymentOperationRecord;
+export type TransactionResponse = any;
+export type PaymentOperationRecord = any;
 
 export class StellarClient {
   private server: typeof Horizon.Server.prototype;
@@ -77,7 +77,7 @@ export class StellarClient {
       .limit(limit)
       .order('desc')
       .call();
-    return payments.records;
+    return payments.records as PaymentOperationRecord[];
   }
 
   /**
@@ -93,8 +93,8 @@ export class StellarClient {
       .forAccount(accountId)
       .cursor('now')
       .stream({
-        onmessage: onMessage,
-        onerror: onError,
+        onmessage: onMessage as any,
+        onerror: onError as any,
       });
   }
 }
