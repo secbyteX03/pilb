@@ -1,6 +1,8 @@
-# PILB - Anonymous M-Pesa Payments via Stellar
+# PILB - Private Instant Ledger Bridge
 
-**Send Money, Keep Your Identity**
+**Anonymous M-Pesa Payments via Stellar**
+
+Send and Receive Money Privately, Keep Your Identity
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Stellar](https://img.shields.io/badge/Stellar-Network-blue.svg)](https://stellar.org)
@@ -9,7 +11,7 @@
 [![React](https://img.shields.io/badge/React-18-blue.svg)](https://react.dev)
 [![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org)
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [About](#about)
 - [Problem Statement](#problem-statement)
@@ -21,6 +23,7 @@
 - [Environment Variables](#environment-variables)
 - [Docker Setup](#docker-setup)
 - [API Endpoints](#api-endpoints)
+- [Frontend Pages](#frontend-pages)
 - [Security](#security)
 - [Architecture](#architecture)
 - [Contributing](#contributing)
@@ -28,27 +31,30 @@
 
 ## About
 
-PILB (Private, Instant, Low-Barrier Payments) is a revolutionary payment system that enables anonymous M-Pesa transfers using the Stellar blockchain. By leveraging cryptographic techniques and the Stellar network, PILB allows users to send money to anyone in Kenya via M-Pesa without revealing their identity.
+PILB (Private Instant Ledger Bridge) is a revolutionary payment system that enables anonymous M-Pesa transfers using the Stellar blockchain. By leveraging cryptographic techniques and the Stellar network, PILB allows users to send and receive money to anyone in Kenya via M-Pesa without revealing their identity.
 
 ## Problem Statement
 
-In Kenya, financial privacy is a significant concern. When sending money through traditional mobile money services like M-Pesa, the sender's details are always visible to the recipient. This creates problems for:
+In Kenya, financial privacy is a significant concern. When sending or receiving money through traditional mobile money services like M-Pesa, the sender's details are always visible to the recipient. This creates problems for:
 
 - **Journalists and activists** who need to protect their sources
 - **Business owners** who want to keep supplier relationships confidential
 - **Individuals** who value financial privacy
 - **Charitable organizations** that need to protect beneficiary information
+- **Remote workers and freelancers** receiving international payments privately
 
-PILB solves this by using the Stellar blockchain as an intermediary, ensuring that the sender's identity remains completely anonymous while still enabling seamless M-Pesa transfers.
+PILB solves this by using the Stellar blockchain as an intermediary, ensuring that the sender's identity remains completely anonymous while still enabling seamless M-Pesa transfers. Recipients can also receive money without exposing their payment details to the sender.
 
 ## How It Works
 
 PILB uses a clever two-step verification system to maintain anonymity:
 
+### Sending Money
+
 1. **Payment Initiation**
 
    - User enters the amount and recipient's phone number
-   - App generates a unique 6-digit verification code
+   - App generates a unique 8-character verification code
    - The code is hashed using AES-256 encryption
    - Payment is sent to Stellar with the hash in the transaction memo
 
@@ -56,7 +62,19 @@ PILB uses a clever two-step verification system to maintain anonymity:
    - Backend watches the Stellar network for incoming payments
    - Once payment is confirmed, the system triggers M-Pesa B2C
    - Recipient receives the money via M-Pesa with no sender information
-   - The 6-digit code is shared separately (via SMS, WhatsApp, etc.)
+   - The 8-character code is shared separately (via SMS, WhatsApp, etc.)
+
+### Receiving Money (Payment Links)
+
+1. **Create Payment Link**
+
+   - User creates a payment link with desired amount and description
+   - Gets a unique shareable link
+
+2. **Share & Receive**
+   - Share the link with anyone (locally or internationally)
+   - Payer sends crypto (XLM/USDC) through the link
+   - Funds are automatically converted and sent to user's M-Pesa
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
@@ -77,14 +95,21 @@ PILB uses a clever two-step verification system to maintain anonymity:
 
 ## Features
 
-- **🔒 Complete Anonymity** - Sender details never reach the recipient
-- **⚡ Fast Transactions** - Stellar confirms in 3-5 seconds
-- **💰 Low Fees** - Stellar transactions cost a fraction of a cent
-- **🌍 Global Reach** - Send from anywhere in the world
-- **🔐 Bank-Grade Security** - AES-256 encryption, Stellar's immutable ledger
-- **📱 Mobile-First** - Built for Kenyan mobile money users
-- **🔄 Real-time Tracking** - Monitor payment status in real-time
-- **🐳 Docker Support** - Easy deployment with containers
+- 🔒 **Complete Anonymity** - Sender details never reach the recipient
+- ⚡ **Fast Transactions** - Stellar confirms in 3-5 seconds
+- 💰 **Low Fees** - Stellar transactions cost a fraction of a cent
+- 🌍 **Global Reach** - Send and receive from anywhere in the world
+- 🔐 **Bank-Grade Security** - AES-256 encryption, Stellar's immutable ledger
+- 📱 **Mobile-First** - Built for Kenyan mobile money users
+- 🔄 **Real-time Tracking** - Monitor payment status in real-time
+- 🐳 **Docker Support** - Easy deployment with containers
+- 🌐 **Cross-Border Payments** - Send to Uganda, Tanzania, Nigeria, Ghana, South Africa, and more
+- 📊 **Payment Links** - Generate shareable payment links to receive payments
+- 📅 **Scheduled Payments** - Set up recurring or future payments
+- 📄 **Invoice Management** - Create and manage invoices for payments
+- 🔒 **Escrow System** - Secure transactions with escrow support
+- 💸 **Receive Payments** - Get paid anonymously by sharing payment links
+- 💱 **Multi-Currency** - Support for XLM, USDC, and other Stellar tokens
 
 ## Tech Stack
 
@@ -104,9 +129,10 @@ PILB uses a clever two-step verification system to maintain anonymity:
 - **Framework**: React 18
 - **Build Tool**: Vite
 - **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **State Management**: React Context + Hooks
+- **Styling**: Tailwind CSS with custom black/white/gold theme
+- **State Management**: React Context + Zustand
 - **HTTP Client**: Axios
+- **Fonts**: Sora (Google Fonts)
 
 ### Infrastructure
 
@@ -129,7 +155,7 @@ PILB uses a clever two-step verification system to maintain anonymity:
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/yourusername/pilb.git
+   git clone https://github.com/secbyteX03/pilb.git
    cd pilb
    ```
 
@@ -189,12 +215,13 @@ PORT=3000
 NODE_ENV=development
 
 # Database
-MONGODB_URI=mongodb://localhost:27017/pilb
+MONGODB_URI=mongodb://localhost:27017/stellarpay
 
 # Stellar
 STELLAR_NETWORK=testnet
 STELLAR_SECRET_KEY=your_secret_key
 STELLAR_PUBLIC_KEY=your_public_key
+STELLAR_SERVER_URL=https://horizon-testnet.stellar.org
 
 # M-Pesa
 MPESA_CONSUMER_KEY=your_consumer_key
@@ -202,6 +229,7 @@ MPESA_CONSUMER_SECRET=your_consumer_secret
 MPESA_SHORTCODE=your_shortcode
 MPESA_INITIATOR_NAME=your_initiator_name
 MPESA_INITIATOR_PASSWORD=your_initiator_password
+MPESA_PASSKEY=your_passkey
 MPESA_ENV=sandbox
 
 # Encryption
@@ -245,41 +273,82 @@ VITE_STELLAR_NETWORK=testnet
 
 ```bash
 cd backend
-docker build -t pilb-backend .
-docker run -p 3000:3000 --env-file .env pilb-backend
+docker build -t stellarpay-backend .
+docker run -p 3000:3000 --env-file .env stellarpay-backend
 ```
 
 **Frontend:**
 
 ```bash
 cd frontend
-docker build -t pilb-frontend .
-docker run -p 80:80 pilb-frontend
+docker build -t stellarpay-frontend .
+docker run -p 80:80 stellarpay-frontend
 ```
 
 ## API Endpoints
 
 ### Authentication
 
-| Method | Endpoint           | Description                      |
-| ------ | ------------------ | -------------------------------- |
-| POST   | `/api/auth/login`  | Authenticate with Stellar wallet |
-| GET    | `/api/auth/verify` | Verify authentication token      |
+| Method | Endpoint                 | Description                 |
+| ------ | ------------------------ | --------------------------- |
+| GET    | `/api/auth/challenge`    | Generate SEP-10 challenge   |
+| POST   | `/api/auth/authenticate` | Authenticate with wallet    |
+| GET    | `/api/auth/verify`       | Verify authentication token |
 
 ### Payments
 
-| Method | Endpoint                 | Description            |
-| ------ | ------------------------ | ---------------------- |
-| POST   | `/api/payments/initiate` | Initiate a new payment |
-| GET    | `/api/payments/:id`      | Get payment status     |
-| GET    | `/api/payments`          | List all payments      |
+| Method | Endpoint                              | Description                 |
+| ------ | ------------------------------------- | --------------------------- |
+| POST   | `/api/payments/initiate`              | Initiate a new payment      |
+| POST   | `/api/payments/initiate-cross-border` | Cross-border payment        |
+| POST   | `/api/payments/link`                  | Create payment link         |
+| GET    | `/api/payments/link/:id`              | Get payment link            |
+| POST   | `/api/payments/scheduled`             | Create scheduled payment    |
+| GET    | `/api/payments/scheduled/:id`         | Get scheduled payment       |
+| POST   | `/api/payments/confirm`               | Confirm Stellar transaction |
+| GET    | `/api/payments/currencies`            | Get supported currencies    |
+| GET    | `/api/payments/history`               | Get payment history         |
+| GET    | `/api/payments/:id`                   | Get payment status          |
 
 ### Verification
 
-| Method | Endpoint                   | Description              |
-| ------ | -------------------------- | ------------------------ |
-| POST   | `/api/verification/verify` | Verify payment with code |
-| POST   | `/api/verification/resend` | Resend verification code |
+| Method | Endpoint                         | Description                |
+| ------ | -------------------------------- | -------------------------- |
+| GET    | `/api/verification/:id`          | Get verification status    |
+| POST   | `/api/verification/:id/verify`   | Verify payment             |
+| POST   | `/api/verification/scan`         | Scan QR code               |
+| POST   | `/api/verification/link`         | Generate payment link      |
+| POST   | `/api/verification/in-store`     | Create in-store QR         |
+| GET    | `/api/verification/merchant/all` | Get merchant verifications |
+
+### Invoices
+
+| Method | Endpoint                 | Description    |
+| ------ | ------------------------ | -------------- |
+| POST   | `/api/invoices`          | Create invoice |
+| GET    | `/api/invoices`          | List invoices  |
+| GET    | `/api/invoices/:id`      | Get invoice    |
+| PUT    | `/api/invoices/:id`      | Update invoice |
+| DELETE | `/api/invoices/:id`      | Delete invoice |
+| POST   | `/api/invoices/:id/send` | Send invoice   |
+
+### Escrow
+
+| Method | Endpoint                  | Description        |
+| ------ | ------------------------- | ------------------ |
+| POST   | `/api/escrow`             | Create escrow      |
+| GET    | `/api/escrow/:id`         | Get escrow details |
+| POST   | `/api/escrow/:id/fund`    | Fund escrow        |
+| POST   | `/api/escrow/:id/release` | Release escrow     |
+| POST   | `/api/escrow/:id/cancel`  | Cancel escrow      |
+
+### Stellar
+
+| Method | Endpoint                            | Description        |
+| ------ | ----------------------------------- | ------------------ |
+| GET    | `/api/stellar/account/:publicKey`   | Get account info   |
+| POST   | `/api/stellar/transactions`         | Submit transaction |
+| GET    | `/api/stellar/transactions/:txHash` | Get transaction    |
 
 ### Health
 
@@ -288,6 +357,29 @@ docker run -p 80:80 pilb-frontend
 | GET    | `/api/health` | Health check endpoint |
 
 For detailed API documentation, see [API.md](./docs/API.md).
+
+## Frontend Pages
+
+PILB provides the following pages:
+
+1. **Home** (`/`) - Landing page with features, pricing, and CTA
+2. **Send** (`/send`) - Send money to recipients (local and cross-border)
+3. **Request Payment** (`/links`) - Create and manage payment links to receive payments
+4. **Verify** (`/verify`) - Verify incoming payments
+5. **Dashboard** (`/dashboard`) - View transaction history and stats
+6. **Scheduled Payments** (`/scheduled`) - View and manage scheduled payments
+7. **Pay** (`/pay`) - Pay using a payment link
+8. **Docs** (`/docs`) - API documentation for developers
+9. **Login** (`/login`) - Connect Stellar wallet
+
+### Design Theme
+
+PILB features a sophisticated black, white, and gold theme:
+
+- **Primary Background**: #0D0D0D (rich black)
+- **Accent Color**: #D4AF37 (gold)
+- **Text Colors**: White (#FFFFFF) and gray variants
+- **Font**: Sora (Google Fonts)
 
 ## Security
 
@@ -298,6 +390,8 @@ For detailed API documentation, see [API.md](./docs/API.md).
 - **HTTPS Only**: All production traffic is encrypted
 - **Rate Limiting**: Prevents abuse
 - **Input Validation**: Sanitized inputs to prevent injection
+- **Helmet.js**: Security headers for all HTTP responses
+- **CORS**: Configured to allow only trusted origins
 
 ## Architecture
 
@@ -323,13 +417,13 @@ PILB follows a clean architecture pattern:
 │                    └─────┬─────┘                             │
 │       ┌──────────────────┼──────────────────┐               │
 │  ┌────▼────┐       ┌─────▼─────┐      ┌─────▼────┐         │
-│  │ Routes  │       │ Services  │      │  Models  │         │
+│  │ Routes  │       │ Services  │      │  Models  │           │
 │  └─────────┘       └─────┬─────┘      └──────────┘         │
 │              ┌───────────┼───────────┐                      │
 │         ┌────▼────┐ ┌────▼────┐ ┌────▼────┐                │
-│         │ Stellar │ │  M-Pesa │ │Encryption│                │
-│         │ Service │ │ Service │ │ Service │                │
-│         └─────────┘ └─────────┘ └─────────┘                │
+│         │ Stellar │ │  M-Pesa │ │Encryption│                 │
+│         │ Service │ │ Service │ │ Service │                 │
+│         └─────────┘ └─────────┘ └─────────┘                 │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -353,13 +447,14 @@ Contributions are welcome! Please read our [Contributing Guidelines](./docs/CONT
 - [ ] Implement batch payments
 - [ ] Add transaction history export
 - [ ] Implement webhooks for third-party integrations
+- [ ] Add more payment methods (cards, crypto)
 
 ## Support
 
 - 📖 Documentation: [docs/](docs/)
   - [Documentation Index](./docs/INDEX.md)
-- 🐛 Issues: [GitHub Issues](https://github.com/yourusername/pilb/issues)
-- 💬 Discussions: [GitHub Discussions](https://github.com/yourusername/pilb/discussions)
+- 🐛 Issues: [GitHub Issues](https://github.com/secbyteX03/pilb/issues)
+- 💬 Discussions: [GitHub Discussions](https://github.com/secbyteX03/pilb/discussions)
 
 ## License
 
