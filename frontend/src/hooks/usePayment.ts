@@ -1,10 +1,23 @@
 import { useState, useCallback } from 'react';
 import { paymentApi, PaymentRequest, PaymentResponse } from '../api/paymentApi';
 
+interface InitiatePaymentResponse {
+  paymentId: string;
+  verificationCode: string;
+  amount: number;
+  amountXLM: string;
+  recipientPhone: string;
+  stellarTransaction: {
+    destination: string;
+    amount: string;
+    memo: string;
+  };
+}
+
 interface UsePaymentState {
   loading: boolean;
   error: string | null;
-  payment: PaymentResponse | null;
+  payment: InitiatePaymentResponse | null;
 }
 
 export function usePayment() {
@@ -14,7 +27,7 @@ export function usePayment() {
     payment: null,
   });
 
-  const initiatePayment = useCallback(async (data: PaymentRequest) => {
+  const initiatePayment = useCallback(async (data: { amount: number; recipientPhone: string; senderPublicKey: string }) => {
     setState({ loading: true, error: null, payment: null });
     
     try {
