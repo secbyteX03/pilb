@@ -2,7 +2,7 @@
 
 ## Supported Versions
 
-We currently support the following versions of PILB:
+We currently support the following versions of StellarPay:
 
 | Version | Supported         |
 | ------- | ----------------- |
@@ -30,6 +30,7 @@ Please include the following information:
 - All sensitive data is encrypted using AES-256
 - Encryption keys are never stored in plain text
 - Environment variables are used for secrets
+- Verification codes are hashed before being stored
 
 ### Authentication
 
@@ -43,6 +44,12 @@ Please include the following information:
 - Helmet.js for security headers
 - Rate limiting on API endpoints
 - Input validation and sanitization
+
+### Privacy
+
+- No sender information sent to M-Pesa recipients
+- Verification code shared via separate channel
+- Payment hashes on Stellar blockchain (not verification codes)
 
 ### Data Protection
 
@@ -58,11 +65,32 @@ Please include the following information:
 
 ## Best Practices for Users
 
-1. **Never share your private keys** - PILB never asks for your private keys
+1. **Never share your private keys** - StellarPay never asks for your private keys
 2. **Use strong encryption keys** - Ensure your `.env` file has strong, unique keys
 3. **Keep software updated** - Regularly update to the latest version
 4. **Verify transactions** - Always verify transaction hashes on Stellar
 5. **Use separate channels** - Share verification codes through different channels than the payment
+6. **Enable 2FA** - Use two-factor authentication where available
+
+## Payment Security
+
+### Anonymous Payments
+
+- Sender details are never transmitted to M-Pesa recipients
+- Only the verification code is shared (via separate channel)
+- The code hash is stored on Stellar blockchain (not the actual code)
+
+### Cross-Border Payments
+
+- Additional verification for international transfers
+- Fee structure displayed before confirmation
+- Transaction limits based on verification level
+
+### Escrow Security
+
+- Funds held securely until conditions are met
+- Automatic refund on cancellation
+- Dispute resolution process
 
 ## Incident Response
 
@@ -80,6 +108,15 @@ In case of a security incident:
 - **Day 7-30**: Patch development and testing
 - **Day 30**: Public disclosure and patch release
 
+## Security Testing
+
+We regularly conduct:
+
+- Code reviews
+- Penetration testing
+- Vulnerability scanning
+- Dependency audits
+
 ---
 
-Thank you for helping keep PILB secure!
+Thank you for helping keep StellarPay secure!

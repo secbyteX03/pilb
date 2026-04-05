@@ -1,23 +1,23 @@
-# PILB Documentation Index
+# StellarPay Documentation Index
 
-Welcome to the PILB documentation. This index provides an organized flow through all available documentation.
+Welcome to the StellarPay documentation. This index provides an organized flow through all available documentation.
 
-## 📚 Documentation Overview
+## Documentation Overview
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                           PILB Documentation                            │
+│                         StellarPay Documentation                        │
 ├─────────────────────────────────────────────────────────────────────────┤
 │                                                                         │
 │  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐   │
-│  │   ARCHITECTURE  │───▶│      API        │───▶│   DEPLOYMENT    │   │
-│  │     (design)    │    │   (reference)   │    │   (setup)       │   │
+│  │   ARCHITECTURE  │───▶│      API         │───▶│   DEPLOYMENT    │   │
+│  │     (design)    │    │   (reference)    │    │   (setup)       │   │
 │  └─────────────────┘    └─────────────────┘    └─────────────────┘   │
 │         │                      │                      │                │
 │         ▼                      ▼                      ▼                │
 │  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐   │
-│  │   CONTRIBUTING  │    │   CHANGELOG     │    │  CODE_OF_CONDUCT│   │
-│  │   (development) │    │   (releases)    │    │   (community)   │   │
+│  │   CONTRIBUTING  │    │   CHANGELOG      │    │  CODE_OF_CONDUCT│   │
+│  │   (development) │    │   (releases)     │    │   (community)   │   │
 │  └─────────────────┘    └─────────────────┘    └─────────────────┘   │
 │         │                                                       │      │
 │         ▼                                                       ▼      │
@@ -29,7 +29,7 @@ Welcome to the PILB documentation. This index provides an organized flow through
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
-## 📖 Available Documentation
+## Available Documentation
 
 ### Getting Started
 
@@ -43,7 +43,7 @@ Welcome to the PILB documentation. This index provides an organized flow through
 
 ### Development
 
-- **[CONTRIBUTING.md](./CONTRIBUTING.md)** - How to contribute to PILB
+- **[CONTRIBUTING.md](./CONTRIBUTING.md)** - How to contribute to StellarPay
 
 ### Community
 
@@ -58,7 +58,7 @@ Welcome to the PILB documentation. This index provides an organized flow through
 
 - **[LICENSE](../LICENSE)** - MIT License (located in project root)
 
-## 🔗 Quick Links
+## Quick Links
 
 | Topic        | Description            | Link                                 |
 | ------------ | ---------------------- | ------------------------------------ |
@@ -68,9 +68,9 @@ Welcome to the PILB documentation. This index provides an organized flow through
 | Contribute   | Development guidelines | [CONTRIBUTING.md](./CONTRIBUTING.md) |
 | Security     | Security policies      | [SECURITY.md](./SECURITY.md)         |
 
-## 📋 Pre-Launch Checklist
+## Pre-Launch Checklist
 
-Before deploying PILB, ensure you've reviewed:
+Before deploying StellarPay, ensure you've reviewed:
 
 - [ ] Read the [Architecture](./ARCHITECTURE.md) to understand the system
 - [ ] Check [API.md](./API.md) for endpoint documentation
@@ -78,12 +78,22 @@ Before deploying PILB, ensure you've reviewed:
 - [ ] Review [CONTRIBUTING.md](./CONTRIBUTING.md) for development guidelines
 - [ ] Understand our [SECURITY.md](./SECURITY.md) policies
 
-## 💡 Need Help?
+## Key Features
 
-- **Found a bug?** [Open an issue](https://github.com/yourusername/pilb/issues/new/choose)
-- **Want a feature?** [Request it](https://github.com/yourusername/pilb/issues/new/choose)
-- **Questions?** Start a [discussion](https://github.com/yourusername/pilb/discussions)
+- **Anonymous Payments**: Send M-Pesa payments without revealing your identity
+- **Cross-Border**: Send to Uganda, Tanzania, Nigeria, Ghana, South Africa, and more
+- **Payment Links**: Generate shareable payment links
+- **Scheduled Payments**: Set up recurring or future payments
+- **Invoice Management**: Create and manage invoices
+- **Escrow System**: Secure transactions with escrow support
+- **Real-time Tracking**: Monitor payment status in real-time
+
+## Need Help?
+
+- **Found a bug?** [Open an issue](https://github.com/yourusername/stellar-pilb/issues/new/choose)
+- **Want a feature?** [Request it](https://github.com/yourusername/stellar-pilb/issues/new/choose)
+- **Questions?** Start a [discussion](https://github.com/yourusername/stellar-pilb/discussions)
 
 ---
 
-_Last updated: 26th March 2026_
+_Last updated: April 2026_

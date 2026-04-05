@@ -1,6 +1,6 @@
-# Contributing to PILB (Payment Infrastructure for Local Payments with Stellar)
+# Contributing to StellarPay
 
-Thank you for your interest in contributing to PILB! This document outlines the guidelines for contributing to this project.
+Thank you for your interest in contributing to StellarPay! This document outlines the guidelines for contributing to this project.
 
 ## Code of Conduct
 
@@ -64,23 +64,38 @@ Before submitting a bug report:
 ## Project Structure
 
 ```
-pilb/
+stellarpilb/
 ├── backend/           # Node.js/Express backend
 │   ├── src/
 │   │   ├── config/    # Configuration files
 │   │   ├── controllers/ # HTTP controllers
-│   │   ├── routes/   # API routes
-│   │   ├── services/ # Business logic
-│   │   └── utils/    # Utilities
-│   └── tests/        # Unit tests
+│   │   ├── middleware/  # Express middleware
+│   │   ├── models/     # MongoDB models
+│   │   ├── routes/    # API routes
+│   │   ├── services/  # Business logic
+│   │   │   ├── auth/        # SEP-10 authentication
+│   │   │   ├── encryption/  # AES encryption
+│   │   │   ├── escrow/     # Escrow service
+│   │   │   ├── exchange/   # Exchange rates
+│   │   │   ├── invoicing/   # Invoice service
+│   │   │   ├── mpesa/      # M-Pesa integration
+│   │   │   ├── paymentGateway/ # Payment processing
+│   │   │   ├── stellar/    # Stellar blockchain
+│   │   │   └── verification/   # Verification service
+│   │   ├── types/     # TypeScript types
+│   │   └── utils/     # Utilities
+│   └── tests/         # Unit tests
 ├── frontend/          # React/Vite frontend
 │   ├── src/
+│   │   ├── api/       # API clients
 │   │   ├── components/ # React components
-│   │   ├── pages/    # Page components
-│   │   ├── hooks/    # Custom hooks
-│   │   └── api/     # API clients
-│   └── public/      # Static assets
-└── docs/             # Documentation
+│   │   ├── hooks/     # Custom hooks
+│   │   ├── pages/     # Page components
+│   │   ├── services/  # Services
+│   │   ├── types/     # TypeScript types
+│   │   └── utils/     # Utilities
+│   └── public/        # Static assets
+└── docs/              # Documentation
 ```
 
 ## Running the Project Locally
@@ -89,6 +104,7 @@ pilb/
 
 - Node.js 18+
 - npm 9+
+- MongoDB (local or Atlas)
 - Docker (optional)
 
 ### Backend Setup
