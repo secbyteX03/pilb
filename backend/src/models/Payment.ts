@@ -14,6 +14,10 @@ export interface PaymentRecord {
   mpesa_tx_id?: string;
   mpesa_status?: 'pending' | 'success' | 'failed';
   status: 'pending_stellar' | 'on_stellar' | 'mpesa_sent' | 'completed' | 'failed';
+  currency: string;
+  country: string;
+  recipient_country_code?: string;
+  exchange_rate?: number;
   expires_at?: Date;
   created_at: Date;
   updated_at: Date;
@@ -28,8 +32,9 @@ export class PaymentModel {
     const result = await db.query(
       `INSERT INTO payments (
         amount_KES, amount_XLM, recipient_phone, sender_public_key,
-        verification_code, code_salt, code_hash, status, expires_at
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+        verification_code, code_salt, code_hash, status, expires_at,
+        currency, country, recipient_country_code, exchange_rate
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
       RETURNING *`,
       [
         payment.amount_KES,
@@ -41,6 +46,10 @@ export class PaymentModel {
         payment.code_hash,
         payment.status,
         payment.expires_at,
+        payment.currency || 'KES',
+        payment.country || 'KE',
+        payment.recipient_country_code || 'KE',
+        payment.exchange_rate || 1,
       ]
     );
     return result.rows[0];
@@ -128,6 +137,10 @@ CREATE TABLE IF NOT EXISTS payments (
   mpesa_tx_id VARCHAR(50),
   mpesa_status VARCHAR(20),
   status VARCHAR(30) NOT NULL DEFAULT 'pending_stellar',
+  currency VARCHAR(10) NOT NULL DEFAULT 'KES',
+  country VARCHAR(2) NOT NULL DEFAULT 'KE',
+  recipient_country_code VARCHAR(2),
+  exchange_rate DECIMAL(20, 10) DEFAULT 1,
   expires_at TIMESTAMP,
   created_at TIMESTAMP DEFAULT NOW(),
   updated_at TIMESTAMP DEFAULT NOW()
@@ -137,4 +150,6 @@ CREATE INDEX IF NOT EXISTS idx_payments_code_hash ON payments(code_hash);
 CREATE INDEX IF NOT EXISTS idx_payments_sender ON payments(sender_public_key);
 CREATE INDEX IF NOT EXISTS idx_payments_status ON payments(status);
 CREATE INDEX IF NOT EXISTS idx_payments_created ON payments(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_payments_currency ON payments(currency);
+CREATE INDEX IF NOT EXISTS idx_payments_country ON payments(country);
 `;

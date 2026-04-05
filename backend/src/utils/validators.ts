@@ -17,7 +17,8 @@ export class Validators {
    */
   static isValidPhone(phone: string): boolean {
     const cleaned = phone.replace(/[\s\-\(\)]/g, '');
-    return /^(\+?254|0)?7\d{8}$/.test(cleaned);
+    // Accept 07... and 01... formats
+    return /^(\+?254|0)?[01]\d{8}$/.test(cleaned);
   }
 
   /**
@@ -34,7 +35,7 @@ export class Validators {
     if (cleaned.startsWith('254')) {
       return cleaned;
     }
-    if (cleaned.startsWith('7')) {
+    if (cleaned.startsWith('7') || cleaned.startsWith('1')) {
       return '254' + cleaned;
     }
     return cleaned;
