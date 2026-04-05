@@ -1,12 +1,19 @@
 import { Router } from 'express';
-import { verifyPayment, verifyByTransaction } from '../controllers/verificationController';
+import { VerificationController } from '../controllers/verificationController';
+import { authenticate } from '../middleware/auth';
 
 const router = Router();
+const verificationController = new VerificationController();
 
-// GET /api/verify/payment - Verify by code
-router.get('/payment', verifyPayment);
+// Public routes (no auth required)
+router.get('/:id', verificationController.getVerificationStatus.bind(verificationController));
+router.post('/:id/verify', verificationController.verifyPayment.bind(verificationController));
+router.post('/scan', verificationController.scanQRCode.bind(verificationController));
 
-// GET /api/verify/transaction - Verify by Stellar transaction
-router.get('/transaction', verifyByTransaction);
+// Protected routes (auth required)
+router.post('/', authenticate, verificationController.createVerification.bind(verificationController));
+router.post('/link', authenticate, verificationController.generatePaymentLink.bind(verificationController));
+router.post('/in-store', authenticate, verificationController.createInStoreQRCode.bind(verificationController));
+router.get('/merchant/all', authenticate, verificationController.getMerchantVerifications.bind(verificationController));
 
 export default router;
