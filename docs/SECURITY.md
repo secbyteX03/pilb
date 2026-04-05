@@ -2,7 +2,7 @@
 
 ## Supported Versions
 
-We currently support the following versions of StellarPay:
+We currently support the following versions of PILB:
 
 | Version | Supported         |
 | ------- | ----------------- |

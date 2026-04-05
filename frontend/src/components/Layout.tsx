@@ -1,5 +1,5 @@
 import React, { ReactNode, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../hooks/useAuth';
 
 interface LayoutProps {
@@ -10,6 +10,9 @@ export default function Layout({ children }: LayoutProps) {
   const { isAuthenticated, logout, user } = useAuthStore();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [copied, setCopied] = useState(false);
+  const location = useLocation();
+
+  const isActive = (path: string) => location.pathname === path;
 
   // Close profile menu when clicking outside
   useEffect(() => {
@@ -396,19 +399,19 @@ export default function Layout({ children }: LayoutProps) {
           </Link>
           
           <nav className="header-nav">
-            <Link to="/dashboard" className="nav-link">
+            <Link to="/dashboard" className={`nav-link ${isActive('/dashboard') ? 'active' : ''}`}>
               Dashboard
             </Link>
-            <Link to="/links" className="nav-link">
+            <Link to="/links" className={`nav-link ${isActive('/links') ? 'active' : ''}`}>
               Request Payment
             </Link>
-            <Link to="/verify" className="nav-link">
+            <Link to="/verify" className={`nav-link ${isActive('/verify') ? 'active' : ''}`}>
               Verify
             </Link>
-            <Link to="/scheduled" className="nav-link">
+            <Link to="/scheduled" className={`nav-link ${isActive('/scheduled') ? 'active' : ''}`}>
               Scheduled
             </Link>
-            <Link to="/send" className="btn-primary">
+            <Link to="/send" className={`btn-primary ${isActive('/send') ? 'active' : ''}`}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14M12 5l7 7-7 7"/>
               </svg>

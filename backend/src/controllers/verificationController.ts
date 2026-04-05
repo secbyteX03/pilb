@@ -1,66 +1,213 @@
 import { Request, Response } from 'express';
-import { PaymentModel } from '../models/Payment';
-import { CodeGenerator } from '../services/encryption/codeGenerator';
+import { VerificationService } from '../services/verification/verificationService';
 import { logger } from '../utils/logger';
 
-/**
- * Verify a payment by code
- * This is for recipients to verify they received money
- */
-export const verifyPayment = async (req: Request, res: Response) => {
-  try {
-    const { code } = req.query;
+const verificationService = new VerificationService();
 
-    if (!code || typeof code !== 'string') {
-      return res.status(400).json({ error: 'Verification code is required' });
+interface AuthRequest extends Request {
+  user?: {
+    id: string;
+    email: string;
+  };
+}
+
+export class VerificationController {
+  /**
+   * Create a payment verification request
+   */
+  async createVerification(req: AuthRequest, res: Response) {
+    try {
+      const { amount, currency, description, expiresInMinutes } = req.body;
+      const merchantId = req.user?.id;
+
+      if (!merchantId) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+
+      const verification = await verificationService.createVerification({
+        amount,
+        currency,
+        merchantId,
+        description,
+        expiresInMinutes,
+      });
+
+      res.status(201).json({
+        success: true,
+        data: verification,
+      });
+    } catch (error) {
+      logger.error('Failed to create verification:', error);
+      res.status(500).json({
+        success: false,
+        error: error instanceof Error ? error.message : 'Failed to create verification',
+      });
     }
-
-    const normalizedCode = code.toUpperCase();
-
-    logger.info(`Verifying payment with code: ${normalizedCode}`);
-
-    // In production, you'd need to search by hash
-    // For now, we'll use a simple approach
-    // Find payments where verification code matches (after hashing)
-    
-    // This is a simplified version - in production you'd:
-    // 1. Look up all recent pending/completed payments
-    // 2. Hash the input code with stored salt
-    // 3. Compare with stored code_hash
-    
-    // For demo, return a mock response
-    res.json({
-      verified: true,
-      message: 'Payment verification service is running',
-      note: 'Full verification requires database integration',
-    });
-  } catch (error: any) {
-    logger.error('Verification error:', error.message);
-    res.status(500).json({ error: 'Failed to verify payment' });
   }
-};
 
-/**
- * Get payment details by transaction hash (public verification)
- */
-export const verifyByTransaction = async (req: Request, res: Response) => {
-  try {
-    const { txHash } = req.query;
+  /**
+   * Get verification status
+   */
+  async getVerificationStatus(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
 
-    if (!txHash || typeof txHash !== 'string') {
-      return res.status(400).json({ error: 'Transaction hash is required' });
+      const verification = await verificationService.getVerificationStatus(id);
+
+      if (!verification) {
+        return res.status(404).json({
+          success: false,
+          error: 'Verification not found',
+        });
+      }
+
+      res.json({
+        success: true,
+        data: verification,
+      });
+    } catch (error) {
+      logger.error('Failed to get verification status:', error);
+      res.status(500).json({
+        success: false,
+        error: error instanceof Error ? error.message : 'Failed to get verification status',
+      });
     }
-
-    // Find payment by Stellar transaction hash
-    // This requires database query in production
-    
-    res.json({
-      verified: true,
-      message: 'Transaction lookup service is running',
-      note: 'Full verification requires database integration',
-    });
-  } catch (error: any) {
-    logger.error('Transaction verification error:', error.message);
-    res.status(500).json({ error: 'Failed to verify transaction' });
   }
-};
+
+  /**
+   * Verify a payment
+   */
+  async verifyPayment(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const { customerInfo } = req.body;
+
+      const verification = await verificationService.verifyPayment(id, customerInfo);
+
+      res.json({
+        success: true,
+        data: verification,
+      });
+    } catch (error) {
+      logger.error('Failed to verify payment:', error);
+      res.status(500).json({
+        success: false,
+        error: error instanceof Error ? error.message : 'Failed to verify payment',
+      });
+    }
+  }
+
+  /**
+   * Scan QR code
+   */
+  async scanQRCode(req: Request, res: Response) {
+    try {
+      const { qrData, customerInfo } = req.body;
+
+      const verification = await verificationService.scanQRCode(qrData, customerInfo);
+
+      res.json({
+        success: true,
+        data: verification,
+      });
+    } catch (error) {
+      logger.error('Failed to scan QR code:', error);
+      res.status(500).json({
+        success: false,
+        error: error instanceof Error ? error.message : 'Failed to scan QR code',
+      });
+    }
+  }
+
+  /**
+   * Generate payment link
+   */
+  async generatePaymentLink(req: AuthRequest, res: Response) {
+    try {
+      const { amount, currency, description, successUrl, cancelUrl } = req.body;
+      const merchantId = req.user?.id;
+
+      if (!merchantId) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+
+      const link = await verificationService.generatePaymentLink({
+        amount,
+        currency,
+        description,
+        merchantId,
+        successUrl,
+        cancelUrl,
+      });
+
+      res.status(201).json({
+        success: true,
+        data: link,
+      });
+    } catch (error) {
+      logger.error('Failed to generate payment link:', error);
+      res.status(500).json({
+        success: false,
+        error: error instanceof Error ? error.message : 'Failed to generate payment link',
+      });
+    }
+  }
+
+  /**
+   * Create in-store QR code
+   */
+  async createInStoreQRCode(req: AuthRequest, res: Response) {
+    try {
+      const { terminalId, amount, currency } = req.body;
+      const merchantId = req.user?.id;
+
+      if (!merchantId) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+
+      const qrCode = await verificationService.createInStoreQRCode({
+        merchantId,
+        terminalId,
+        amount,
+        currency,
+      });
+
+      res.status(201).json({
+        success: true,
+        data: qrCode,
+      });
+    } catch (error) {
+      logger.error('Failed to create in-store QR code:', error);
+      res.status(500).json({
+        success: false,
+        error: error instanceof Error ? error.message : 'Failed to create in-store QR code',
+      });
+    }
+  }
+
+  /**
+   * Get merchant's verifications
+   */
+  async getMerchantVerifications(req: AuthRequest, res: Response) {
+    try {
+      const merchantId = req.user?.id;
+
+      if (!merchantId) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+
+      const verifications = await verificationService.getMerchantVerifications(merchantId);
+
+      res.json({
+        success: true,
+        data: verifications,
+      });
+    } catch (error) {
+      logger.error('Failed to get merchant verifications:', error);
+      res.status(500).json({
+        success: false,
+        error: error instanceof Error ? error.message : 'Failed to get verifications',
+      });
+    }
+  }
+}

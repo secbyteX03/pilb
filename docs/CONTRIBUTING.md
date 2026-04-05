@@ -1,6 +1,6 @@
-# Contributing to StellarPay
+# Contributing to PILB
 
-Thank you for your interest in contributing to StellarPay! This document outlines the guidelines for contributing to this project.
+Thank you for your interest in contributing to PILB! This document outlines the guidelines for contributing to this project.
 
 ## Code of Conduct
 

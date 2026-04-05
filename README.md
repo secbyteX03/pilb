@@ -35,17 +35,23 @@ PILB (Private Instant Ledger Bridge) is a revolutionary payment system that enab
 
 ## Problem Statement
 
-In Kenya, financial privacy is a significant concern. When sending or receiving money through traditional mobile money services like M-Pesa, the sender's details are always visible to the recipient. This creates problems for:
+In Kenya, financial privacy is a significant concern when using mobile money services. When sending money through M-Pesa, the sender's full phone number and name are always visible to the recipient. This lack of privacy creates challenges for:
 
-- **Journalists and activists** who need to protect their sources
+- **Journalists and activists** who need to protect their sources and contacts
 - **Business owners** who want to keep supplier relationships confidential
-- **Individuals** who value financial privacy
+- **Individuals** who value their financial privacy
 - **Charitable organizations** that need to protect beneficiary information
-- **Remote workers and freelancers** receiving international payments privately
+- **Remote workers and freelancers** receiving international payments
 
-PILB solves this by using the Stellar blockchain as an intermediary, ensuring that the sender's identity remains completely anonymous while still enabling seamless M-Pesa transfers. Recipients can also receive money without exposing their payment details to the sender.
+Similarly, when receiving money, your phone number becomes visible to the sender, which may not be desirable in many situations.
 
-> **Note:** M-Pesa has recently introduced enhanced privacy features - when receiving money, you now only see the sender's partial number and full name. The sender must approve to display their full number. PILB adds an additional layer of anonymity through the Stellar blockchain, making it even more private than regular M-Pesa transactions.
+### The M-Pesa Privacy Challenge
+
+With M-Pesa's recent update showing only partial numbers and requiring sender approval for full number display, privacy has improved. However, the sender's name still appears, and both parties must approve for full number visibility. PILB takes this further by completely removing any connection between the Stellar blockchain transactions and M-Pesa phone numbers.
+
+### The Verification Problem
+
+Additionally, verifying payments received via M-Pesa can be difficult - recipients must forward SMS notifications to 334 to verify sender details, which is time-consuming and not always reliable.
 
 ## How It Works
 
@@ -97,21 +103,22 @@ PILB uses a clever two-step verification system to maintain anonymity:
 
 ## Features
 
-- 🔒 **Complete Anonymity** - Sender details never reach the recipient
-- ⚡ **Fast Transactions** - Stellar confirms in 3-5 seconds
+- 🔒 **Complete Anonymity** - Sender details never reach the recipient. Both sender and receiver remain anonymous through Stellar blockchain.
+- ⚡ **Fast Transactions** - Stellar confirms in 3-5 seconds, M-Pesa delivers within seconds
 - 💰 **Low Fees** - Stellar transactions cost a fraction of a cent
-- 🌍 **Global Reach** - Send and receive from anywhere in the world
+- 🌍 **Global Reach** - Send and receive from anywhere in the world to Kenya via M-Pesa
 - 🔐 **Bank-Grade Security** - AES-256 encryption, Stellar's immutable ledger
 - 📱 **Mobile-First** - Built for Kenyan mobile money users
-- 🔄 **Real-time Tracking** - Monitor payment status in real-time
+- 🔄 **Real-time Tracking** - Monitor payment status in real-time on your dashboard
 - 🐳 **Docker Support** - Easy deployment with containers
-- 🌐 **Cross-Border Payments** - Send to Uganda, Tanzania, Nigeria, Ghana, South Africa, and more
-- 📊 **Payment Links** - Generate shareable payment links to receive payments
-- 📅 **Scheduled Payments** - Set up recurring or future payments
+- 🌐 **Cross-Border Payments** - Send to Uganda, Tanzania, Nigeria, Ghana, South Africa, and more while remaining anonymous
+- 📊 **Payment Links** - Generate shareable payment links to receive payments. The sender can also remain anonymous - they send crypto and you get M-Pesa
+- 📅 **Scheduled Payments** - Set up recurring or future payments. Schedule a payment to be carried out instantly whenever money hits your account
 - 📄 **Invoice Management** - Create and manage invoices for payments
-- 🔒 **Escrow System** - Secure transactions with escrow support
-- 💸 **Receive Payments** - Get paid anonymously by sharing payment links
-- 💱 **Multi-Currency** - Support for XLM, USDC, and other Stellar tokens
+- 🔒 **Escrow System** - Secure transactions with escrow support - funds are held until conditions are met
+- 💸 **Receive Payments** - Get paid anonymously by sharing payment links. No need to reveal your phone number
+- 💱 **Multi-Currency** - Support for XLM, USDC, and other Stellar tokens. Recipients receive in KES via M-Pesa
+- ✅ **Verify Payments** - Easily verify incoming payments using unique verification codes
 
 ## Tech Stack
 

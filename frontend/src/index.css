@@ -84,3 +84,14 @@ h6 {
 .ring-gold:focus {
   --tw-ring-color: var(--color-primary);
 }
+
+/* Navigation active state */
+.nav-link.active {
+  color: #D4AF37;
+  font-weight: 600;
+}
+
+.btn-primary.active {
+  background: #D4AF37;
+  color: #000;
+}
